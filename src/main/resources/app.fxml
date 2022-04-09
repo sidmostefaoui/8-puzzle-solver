@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.collections.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<?import java.util.ArrayList?>
+<HBox xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.javafx.HelloController">
+   <children>
+      <VBox alignment="CENTER" prefHeight="487.0" prefWidth="232.0">
+          <padding>
+              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+          </padding>
+         <Label text="état initial:">
+            <font>
+               <Font size="18.0" />
+            </font>
+         </Label>
+          <GridPane alignment="CENTER" gridLinesVisible="true" prefHeight="165.0" prefWidth="158.0">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+              <Label fx:id="label0"  GridPane.halignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+              </Label>
+              <Label fx:id="label1"  GridPane.columnIndex="1" GridPane.halignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Label>
+              <Label fx:id="label2" GridPane.columnIndex="2" GridPane.halignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Label>
+              <Label fx:id="label3"  GridPane.halignment="CENTER" GridPane.rowIndex="1">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Label>
+              <Label fx:id="label4" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Label>
+              <Label fx:id="label5"  GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Label>
+              <Label fx:id="label6" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Label>
+              <Label fx:id="label7" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Label>
+              <Label fx:id="label8" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Label>
+              <fx:define>
+                  <ArrayList fx:id="initial_grid_labels">
+                      <fx:reference source="label0" />
+                      <fx:reference source="label1" />
+                      <fx:reference source="label2" />
+                      <fx:reference source="label3" />
+                      <fx:reference source="label4" />
+                      <fx:reference source="label5" />
+                      <fx:reference source="label6" />
+                      <fx:reference source="label7" />
+                      <fx:reference source="label8" />
+                  </ArrayList>
+              </fx:define>
+          </GridPane>
+         <Label text="état cible">
+            <font>
+               <Font size="18.0" />
+            </font>
+            <VBox.margin>
+               <Insets top="15.0" />
+            </VBox.margin>
+         </Label>
+          <GridPane alignment="CENTER" gridLinesVisible="true" prefHeight="165.0" prefWidth="158.0">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+              <Label fx:id="label01" GridPane.halignment="CENTER">
+                  <font>
+                      <Font name="System Bold" size="14.0" />
+                  </font></Label>
+              <Label fx:id="label11" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+               <font>
+                   <Font name="System Bold" size="14.0" />
+               </font></Label>
+              <Label fx:id="label21" GridPane.columnIndex="2" GridPane.halignment="CENTER">
+               <font>
+                   <Font name="System Bold" size="14.0" />
+               </font></Label>
+              <Label fx:id="label31" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+               <font>
+                   <Font name="System Bold" size="14.0" />
+               </font></Label>
+              <Label fx:id="label41" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+               <font>
+                   <Font name="System Bold" size="14.0" />
+               </font></Label>
+              <Label fx:id="label51" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+               <font>
+                   <Font name="System Bold" size="14.0" />
+               </font></Label>
+              <Label fx:id="label61" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+               <font>
+                   <Font name="System Bold" size="14.0" />
+               </font></Label>
+              <Label fx:id="label71" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+               <font>
+                   <Font name="System Bold" size="14.0" />
+               </font></Label>
+              <Label fx:id="label81" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+               <font>
+                   <Font name="System Bold" size="14.0" />
+               </font></Label>
+              <fx:define>
+                  <ArrayList fx:id="target_grid_labels">
+                      <fx:reference source="label01" />
+                      <fx:reference source="label11" />
+                      <fx:reference source="label21" />
+                      <fx:reference source="label31" />
+                      <fx:reference source="label41" />
+                      <fx:reference source="label51" />
+                      <fx:reference source="label61" />
+                      <fx:reference source="label71" />
+                      <fx:reference source="label81" />
+                  </ArrayList>
+              </fx:define>
+          </GridPane>
+          <ComboBox fx:id="algorithm_combo_box" value="A* inversions">
+              <items>
+                  <FXCollections fx:factory="observableArrayList">
+                      <String fx:value="DFS" />
+                      <String fx:value="BFS" />
+                      <String fx:value="A* inversions" />
+                      <String fx:value="A* mal placée" />
+                  </FXCollections>
+              </items>
+            <VBox.margin>
+               <Insets top="20.0" />
+            </VBox.margin>
+          </ComboBox>
+
+          <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+              <Button fx:id="button_generate" mnemonicParsing="false" onAction="#onGenerateButtonClick" text="aléatoire">
+               <HBox.margin>
+                  <Insets right="5.0" />
+               </HBox.margin></Button>
+              <Button fx:id="button_solve" mnemonicParsing="false" onAction="#onSolveButtonClick" text="résoudre">
+               <HBox.margin>
+                  <Insets left="5.0" />
+               </HBox.margin></Button>
+          </HBox>
+      </VBox>
+      <TableView fx:id="table_statistics" prefHeight="180.0" prefWidth="580.0">
+        <columns>
+            <TableColumn fx:id="col_algorithm" prefWidth="75.0" text="Algorithme" />
+            <TableColumn fx:id="col_solution" prefWidth="100.0" text="Solution trouvée" />
+            <TableColumn fx:id="col_iterations" prefWidth="120.0" text="Nombre d'itérations" />
+            <TableColumn fx:id="col_duration" prefWidth="140.0" text="Temps d'éxecution (ms)" />
+            <TableColumn fx:id="col_memory" prefWidth="130.0" text="Mémoire allouée (ko)" />
+        </columns>
+      </TableView>
+   </children>
+</HBox>

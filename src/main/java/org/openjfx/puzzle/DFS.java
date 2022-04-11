@@ -10,19 +10,19 @@ public class DFS extends AbstractPuzzleSolver {
 
     @Override
     public boolean search() {
-        var stack = new ArrayDeque<PuzzleState>();
+        ArrayDeque<PuzzleState> stack = new ArrayDeque<>();
         stack.push(initial);
 
         while(!stack.isEmpty()) {
             iterations++;
-            var state = stack.pop();
+            PuzzleState state = stack.pop();
 
             if(discovered.get(state) != null) continue;
             discovered.put(state, true);
 
             if(state.equals(target)) return true;
 
-            for(var n : state.getNeighbours()) {
+            for(PuzzleState n : state.getNeighbours()) {
                 previous_map.put(n, state);
                 stack.push(n);
             }

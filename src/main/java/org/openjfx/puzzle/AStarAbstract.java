@@ -30,7 +30,7 @@ public abstract class AStarAbstract extends AbstractPuzzleSolver {
         }
 
         PuzzleState dequeue() {
-            var s = queue.poll();
+            PuzzleState s = queue.poll();
             cache.remove(s);
             return s;
         }
@@ -48,8 +48,8 @@ public abstract class AStarAbstract extends AbstractPuzzleSolver {
 
     @Override
     public boolean search() {
-        var score_map = new HashMap<PuzzleState, Integer>();
-        var open = new FastRandomAccessPriorityQueue(score_map::get);
+        HashMap<PuzzleState, Integer> score_map = new HashMap<>();
+        FastRandomAccessPriorityQueue open = new FastRandomAccessPriorityQueue(score_map::get);
 
         open.enqueue(initial);
         score_map.put(initial, h(initial));
@@ -57,12 +57,12 @@ public abstract class AStarAbstract extends AbstractPuzzleSolver {
         while (!open.isEmpty()) {
             iterations++;
 
-            var state = open.dequeue();
+            PuzzleState state = open.dequeue();
             if (state.equals(target)) return true;
 
-            for(var n : state.getNeighbours()) {
-               var n_score_through_current = score_map.get(state) + 1;
-               var n_score_best = score_map.get(n);
+            for(PuzzleState n : state.getNeighbours()) {
+               Integer n_score_through_current = score_map.get(state) + 1;
+               Integer n_score_best = score_map.get(n);
 
                 if (n_score_best == null || n_score_through_current < n_score_best) {
                     previous_map.put(n, state);

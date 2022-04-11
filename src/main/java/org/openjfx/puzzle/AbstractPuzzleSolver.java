@@ -31,7 +31,7 @@ public abstract class AbstractPuzzleSolver {
         clear();
         t.start();
         Memory.clear();
-        var search = search();
+        boolean search = search();
         memory = Memory.usage();
         t.end();
         return search;
@@ -50,7 +50,7 @@ public abstract class AbstractPuzzleSolver {
     }
 
     protected ArrayDeque<PuzzleState> path(PuzzleState state) {
-        var path = new ArrayDeque<PuzzleState>();
+        ArrayDeque<PuzzleState> path = new ArrayDeque<>();
         path.addFirst(state);
 
         while(previous_map.get(state) != null) {

@@ -2,11 +2,9 @@ package org.openjfx.puzzle;
 
 import org.openjfx.benchmark.Memory;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 
 import static java.lang.Math.abs;
 
@@ -27,8 +25,9 @@ public class PuzzleState {
     }
 
     int distances(PuzzleState target) {
-        var current = List.of(matrixToArray(this.state));
-        var goal = List.of(matrixToArray(target.state));
+        List<Integer> current = Arrays.stream(matrixToArray(this.state)).boxed().collect(Collectors.toList());
+        List<Integer> goal = Arrays.stream(matrixToArray(target.state)).boxed().collect(Collectors.toList());
+
 
         int distances = 0;
         for(int k = 0; k < 9; k++) {
@@ -40,8 +39,8 @@ public class PuzzleState {
     }
 
     int misplaced(PuzzleState target) {
-        var current = List.of(matrixToArray(this.state));
-        var goal = List.of(matrixToArray(target.state));
+        List<Integer> current = Arrays.stream(matrixToArray(this.state)).boxed().collect(Collectors.toList());
+        List<Integer> goal = Arrays.stream(matrixToArray(target.state)).boxed().collect(Collectors.toList());
 
         int misplaced = 0;
         for(int k = 0; k < 9; k++) {
@@ -53,8 +52,8 @@ public class PuzzleState {
     }
 
     int inversions(PuzzleState target) {
-        var current_array = matrixToArray(this.state);
-        var goal_array = matrixToArray(target.state);
+        int[] current_array = matrixToArray(this.state);
+        int[] goal_array = matrixToArray(target.state);
 
         int inversions = 0;
 
@@ -87,7 +86,7 @@ public class PuzzleState {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        var other = (PuzzleState) o;
+        PuzzleState other = (PuzzleState) o;
 
         for (int i = 0; i < 3; i++)
             for (int j = 0; j < 3; j++)
@@ -134,7 +133,7 @@ public class PuzzleState {
     }
 
     private Pos getBlankPos() {
-        var pos = new Pos(0, 0);
+        Pos pos = new Pos(0, 0);
         for (int i = 0; i < 3; i++)
             for (int j = 0; j < 3; j++)
                 if (this.state[i][j] == 0) {
@@ -145,28 +144,29 @@ public class PuzzleState {
     }
 
     private void swap(Pos first, Pos second) {
-        var tmp = this.state[first.i][first.j];
+        int tmp = this.state[first.i][first.j];
         this.state[first.i][first.j] = this.state[second.i][second.j];
         this.state[second.i][second.j] = tmp;
     }
 
     public ArrayList<PuzzleState> getNeighbours() {
-        var blank = getBlankPos();
+        Pos blank = getBlankPos();
 
-        var next_states = new ArrayList<PuzzleState>();
+        ArrayList<PuzzleState> next_states = new ArrayList<>();
 
         Pos[] neighbors = {blank.up(), blank.down(), blank.right(), blank.left()};
-        for (var pos : neighbors)
+        for (Pos pos : neighbors)
             if (pos.isValid()) {
-                var new_state = new PuzzleState(this);
+                PuzzleState new_state = new PuzzleState(this);
                 new_state.swap(blank, pos);
                 next_states.add(new_state);
             }
+
         return next_states;
     }
 
     public Integer[] toIntegerArray() {
-        var array = matrixToArray(state);
+        int[] array = matrixToArray(state);
         return Arrays.stream(array).boxed().toArray( Integer[]::new );
     }
 
@@ -180,14 +180,14 @@ public class PuzzleState {
     }
 
     private int[][] arrayToMatrix(int[] array) {
-        var tmp = new int[3][3];
+        int[][] mat = new int[3][3];
         for (int i = 0; i < 3; i++)
-            System.arraycopy(array, i * 3, tmp[i], 0, 3);
-        return tmp;
+            System.arraycopy(array, i * 3, mat[i], 0, 3);
+        return mat;
     }
 
     private int[] matrixToArray(int[][] matrix) {
-        var array = new int[9];
+        int[] array = new int[9];
         for (int i = 0; i < 3; i++)
             System.arraycopy(matrix[i], 0, array, i * 3, 3);
         return array;

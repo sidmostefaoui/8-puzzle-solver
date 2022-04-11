@@ -18,10 +18,10 @@ public class BFS extends AbstractPuzzleSolver {
         while(!queue.isEmpty()) {
             iterations++;
 
-            var state = queue.poll();
+            PuzzleState state = queue.poll();
             if(state.equals(target)) return true;
 
-            for(var n : state.getNeighbours())
+            for(PuzzleState n : state.getNeighbours())
                 if(discovered.get(n) == null) {
                     discovered.put(n, true);
                     previous_map.put(n, state);

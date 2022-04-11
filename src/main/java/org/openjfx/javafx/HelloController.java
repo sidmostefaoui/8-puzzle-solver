@@ -29,13 +29,13 @@ public class HelloController {
 
 
     private void showBoard() {
-        var initial_arr = initial.toIntegerArray();
+        Integer[] initial_arr = initial.toIntegerArray();
         for (int i = 0; i < 9; i++)  {
             if (initial_arr[i] == 0) initial_grid_labels.get(i).setText("");
             else initial_grid_labels.get(i).setText(initial_arr[i].toString());
         }
 
-        var target_arr = target.toIntegerArray();
+        Integer[] target_arr = target.toIntegerArray();
         for (int i = 0; i < 9; i++)  {
             if (target_arr[i] == 0) target_grid_labels.get(i).setText("");
             else target_grid_labels.get(i).setText(target_arr[i].toString());
@@ -59,7 +59,7 @@ public class HelloController {
     @FXML
     protected void onSolveButtonClick() {
 
-        var algorithm = algorithm_combo_box.getValue();
+        String algorithm = algorithm_combo_box.getValue();
 
         switch (algorithm) {
             case "A* inversions":

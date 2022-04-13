@@ -4,12 +4,17 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.PriorityQueue;
 
-public abstract class AStarAbstract extends AbstractPuzzleSolver {
+public class AStar extends AbstractPuzzleSolver {
+    private final Heuristic h;
 
-    public AStarAbstract(PuzzleState initial, PuzzleState target) {
+    public AStar(PuzzleState initial, PuzzleState target, Heuristic h) {
         super(initial, target);
+        this.h = h;
     }
 
+    public interface Heuristic {
+        int score(PuzzleState current, PuzzleState target);
+    }
 
     private static class FastRandomAccessPriorityQueue {
         PriorityQueue<PuzzleState> queue;
@@ -44,15 +49,13 @@ public abstract class AStarAbstract extends AbstractPuzzleSolver {
         }
     }
 
-    public abstract int h(PuzzleState state);
-
     @Override
     public boolean search() {
         HashMap<PuzzleState, Integer> score_map = new HashMap<>();
         FastRandomAccessPriorityQueue open = new FastRandomAccessPriorityQueue(score_map::get);
 
         open.enqueue(initial);
-        score_map.put(initial, h(initial));
+        score_map.put(initial, h.score(initial, target));
 
         while (!open.isEmpty()) {
             iterations++;
@@ -60,13 +63,13 @@ public abstract class AStarAbstract extends AbstractPuzzleSolver {
             PuzzleState state = open.dequeue();
             if (state.equals(target)) return true;
 
-            for(PuzzleState n : state.getNeighbours()) {
-               Integer n_score_through_current = score_map.get(state) + 1;
+            for(PuzzleState n : state.neighbors()) {
+               int n_score_through_current = score_map.get(state) + 1;
                Integer n_score_best = score_map.get(n);
 
                 if (n_score_best == null || n_score_through_current < n_score_best) {
                     previous_map.put(n, state);
-                    score_map.put(n, n_score_through_current + h(n));
+                    score_map.put(n, n_score_through_current + h.score(n, target));
                     if (!open.contains(n)) open.enqueue(n);
                 }
             }

@@ -29,13 +29,13 @@ public class HelloController {
 
 
     private void showBoard() {
-        Integer[] initial_arr = initial.toIntegerArray();
+        Integer[] initial_arr = initial.as_integer_array();
         for (int i = 0; i < 9; i++)  {
             if (initial_arr[i] == 0) initial_grid_labels.get(i).setText("");
             else initial_grid_labels.get(i).setText(initial_arr[i].toString());
         }
 
-        Integer[] target_arr = target.toIntegerArray();
+        Integer[] target_arr = target.as_integer_array();
         for (int i = 0; i < 9; i++)  {
             if (target_arr[i] == 0) target_grid_labels.get(i).setText("");
             else target_grid_labels.get(i).setText(target_arr[i].toString());
@@ -63,11 +63,13 @@ public class HelloController {
 
         switch (algorithm) {
             case "A* inversions":
-                solver = new AStarInversions(initial, target);
+                solver = new AStar(initial, target, PuzzleState::inversions);
                 break;
             case "A* mal placée":
-                solver = new AStarMisplaced(initial, target);
+                solver = new AStar(initial, target, PuzzleState::misplaced);
                 break;
+            case "A* distances":
+                solver = new AStar(initial, target, PuzzleState::distances);
             case "BFS":
                 solver = new BFS(initial, target);
                 break;

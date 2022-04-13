@@ -174,6 +174,7 @@
                     <String fx:value="BFS"/>
                     <String fx:value="A* inversions"/>
                     <String fx:value="A* mal placée"/>
+                    <String fx:value="A* distances"/>
                 </FXCollections>
             </items>
           <VBox.margin>

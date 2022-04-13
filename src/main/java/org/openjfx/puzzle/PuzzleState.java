@@ -7,56 +7,58 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 import static java.lang.Math.abs;
+import static java.lang.Math.pow;
 
 public class PuzzleState {
-    private final int[][] state;
+    private int data;
 
     public PuzzleState() {
-        this.state = generateRandom();
-        Memory.add(9 * Integer.SIZE);
-    }
-
-    public PuzzleState(PuzzleState other) {
-        this.state = new int[3][3];
-        for(int i = 0; i < 3; i++)
-            System.arraycopy(other.state[i], 0, this.state[i], 0, 3);
-
+        this.data = generate_random();
         Memory.add(Integer.SIZE);
     }
 
-    int distances(PuzzleState target) {
-        List<Integer> current = Arrays.stream(matrixToArray(this.state)).boxed().collect(Collectors.toList());
-        List<Integer> goal = Arrays.stream(matrixToArray(target.state)).boxed().collect(Collectors.toList());
+    public PuzzleState(PuzzleState other) {
+        this.data = other.data;
+        Memory.add(Integer.SIZE);
+    }
+
+    public static int distances(PuzzleState current, PuzzleState target) {
+        List<Integer> actual = Arrays.stream(int_to_array(current.data)).boxed().collect(Collectors.toList());
+        List<Integer> goal = Arrays.stream(int_to_array(target.data)).boxed().collect(Collectors.toList());
 
 
         int distances = 0;
         for(int k = 0; k < 9; k++) {
-            int i1 = current.indexOf(k);
+            int i1 = actual.indexOf(k);
             int i2 = goal.indexOf(k);
             distances += abs(i2 - i1);
         }
+
         return distances;
     }
 
-    int misplaced(PuzzleState target) {
-        List<Integer> current = Arrays.stream(matrixToArray(this.state)).boxed().collect(Collectors.toList());
-        List<Integer> goal = Arrays.stream(matrixToArray(target.state)).boxed().collect(Collectors.toList());
+    public static int misplaced(PuzzleState current, PuzzleState target) {
+        List<Integer> actual = Arrays.stream(int_to_array(current.data)).boxed().collect(Collectors.toList());
+        List<Integer> goal = Arrays.stream(int_to_array(target.data)).boxed().collect(Collectors.toList());
 
         int misplaced = 0;
+
         for(int k = 0; k < 9; k++) {
-            int i1 = current.indexOf(k);
+            int i1 = actual.indexOf(k);
             int i2 = goal.indexOf(k);
             if(i1 != i2) misplaced++;
         }
+
         return misplaced;
     }
 
-    int inversions(PuzzleState target) {
-        int[] current_array = matrixToArray(this.state);
-        int[] goal_array = matrixToArray(target.state);
+
+
+    public static int inversions(PuzzleState current, PuzzleState target) {
+        int[] current_array = int_to_array(current.data);
+        int[] goal_array = int_to_array(target.data);
 
         int inversions = 0;
-
         for (int k1 = 0; k1 < 9; k1++)
             for(int k2 = 0; k2 < 9; k2++) {
                 if (k1 == k2) continue;
@@ -77,7 +79,6 @@ public class PuzzleState {
                 boolean order_target = (j1 - j2) >= 0;
                 if (order_current != order_target) inversions++;
             }
-
         return inversions;
     }
 
@@ -87,113 +88,116 @@ public class PuzzleState {
         if (o == null || getClass() != o.getClass()) return false;
 
         PuzzleState other = (PuzzleState) o;
-
-        for (int i = 0; i < 3; i++)
-            for (int j = 0; j < 3; j++)
-                if (this.state[i][j] != other.state[i][j]) return false;
-
-        return true;
+        return this.data == other.data;
     }
 
     @Override
     public int hashCode() {
-        return Arrays.deepHashCode(state);
+        return this.data;
     }
 
 
     static class Pos {
-        public int i;
-        public int j;
+        public int index;
 
-        public Pos(int x, int y) {
-            this.i = x;
-            this.j = y;
+        public Pos(int index) {
+            this.index = index;
         }
 
-        public boolean isValid() {
-            if (i < 0 || i >= 3) return false;
-            return j >= 0 && j < 3;
-        }
-
-        public Pos up() {
-            return new Pos(this.i - 1, this.j);
-        }
-
-        public Pos down() {
-            return new Pos(this.i + 1, this.j);
-        }
-
-        public Pos right() {
-            return new Pos(this.i, this.j + 1);
+        public boolean is_valid() {
+            if(i() < 0 || i() >= 3) return false;
+            return j() >= 0;
         }
 
         public Pos left() {
-            return new Pos(this.i, this.j - 1);
+            return new Pos(i() * 3 + (j() - 1));
         }
-    }
 
-    private Pos getBlankPos() {
-        Pos pos = new Pos(0, 0);
-        for (int i = 0; i < 3; i++)
-            for (int j = 0; j < 3; j++)
-                if (this.state[i][j] == 0) {
-                    pos.i = i;
-                    pos.j = j;
-                }
-        return pos;
+        public Pos right() {
+            return new Pos(i() * 3 + (j() + 1));
+        }
+
+        public Pos down() {
+            return new Pos((i() + 1) * 3 + j());
+        }
+        public Pos up() {
+            return new Pos((i() - 1) * 3 + j());
+        }
+
+        private int i() {
+            return index / 3;
+        }
+
+        private int j() {
+            return index % 3;
+        }
+
+        private static int index_of(int data, int n) {
+            assert(n >= 0 && n < 9);
+
+            for(int i = 0; i < 9; i++) {
+                int digit = data % 10;
+                if(digit == n) return 8 - i;
+                data -= digit;
+                data /= 10;
+            }
+
+            return -1;
+        }
     }
 
     private void swap(Pos first, Pos second) {
-        int tmp = this.state[first.i][first.j];
-        this.state[first.i][first.j] = this.state[second.i][second.j];
-        this.state[second.i][second.j] = tmp;
+        int[] arr = int_to_array(this.data);
+        int tmp = arr[first.index];
+        arr[first.index] = arr[second.index];
+        arr[second.index] = tmp;
+        this.data = array_to_int(arr);
     }
 
-    public ArrayList<PuzzleState> getNeighbours() {
-        Pos blank = getBlankPos();
-
-        ArrayList<PuzzleState> next_states = new ArrayList<>();
+    public ArrayList<PuzzleState> neighbors() {
+        Pos blank = new Pos(Pos.index_of(data, 0));
 
         Pos[] neighbors = {blank.up(), blank.down(), blank.right(), blank.left()};
+        ArrayList<PuzzleState> valid = new ArrayList<>();
+
         for (Pos pos : neighbors)
-            if (pos.isValid()) {
+            if (pos.is_valid()) {
                 PuzzleState new_state = new PuzzleState(this);
                 new_state.swap(blank, pos);
-                next_states.add(new_state);
+                valid.add(new_state);
             }
 
-        return next_states;
+        return valid;
     }
 
-    public Integer[] toIntegerArray() {
-        int[] array = matrixToArray(state);
+    public Integer[] as_integer_array() {
+        int[] array = int_to_array(this.data);
         return Arrays.stream(array).boxed().toArray( Integer[]::new );
+
     }
 
-    public void print() {
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++)
-                System.out.print(state[i][j] + " ");
-            System.out.println();
-        }
-        System.out.println("------------");
+
+    private static int array_to_int(int[] array) {
+        int data = 0;
+        for(int i = 0; i < array.length; i++)
+            data += array[i] * (pow(10, 8 - i));
+        return data;
     }
 
-    private int[][] arrayToMatrix(int[] array) {
-        int[][] mat = new int[3][3];
-        for (int i = 0; i < 3; i++)
-            System.arraycopy(array, i * 3, mat[i], 0, 3);
-        return mat;
-    }
-
-    private int[] matrixToArray(int[][] matrix) {
+    private static int[] int_to_array(int data) {
         int[] array = new int[9];
-        for (int i = 0; i < 3; i++)
-            System.arraycopy(matrix[i], 0, array, i * 3, 3);
+
+        for(int i = 0; i < 9; i++) {
+            int digit = data % 10;
+            array[8 - i] = digit;
+            data -= digit;
+            data /= 10;
+        }
+
         return array;
     }
 
-    private int[][] generateRandom() {
+    private int generate_random() {
         int[] array = {0, 1, 2, 3, 4, 5, 6, 7, 8};
 
         // shuffle array https://stackoverflow.com/a/1520212
@@ -206,6 +210,8 @@ public class PuzzleState {
             array[i] = a;
         }
 
-        return arrayToMatrix(array);
+        return array_to_int(array);
     }
+
+
 }

@@ -9,7 +9,7 @@
 
 <?import java.util.ArrayList?>
 <HBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="org.openjfx.javafx.HelloController">
+      fx:controller="org.openjfx.javafx.HelloController" fx:id="root">
     <VBox alignment="CENTER" prefHeight="487.0" prefWidth="232.0">
         <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
@@ -175,6 +175,7 @@
                     <String fx:value="A* inversions"/>
                     <String fx:value="A* mal placée"/>
                     <String fx:value="A* distances"/>
+                    <String fx:value="Genetic"/>
                 </FXCollections>
             </items>
           <VBox.margin>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Font?>
+<GridPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="org.openjfx.javafx.BoardController"
+          gridLinesVisible="true" alignment="CENTER" prefHeight="165.0" prefWidth="158.0">
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+    </rowConstraints>
+    <Label fx:id="label0" GridPane.halignment="CENTER">
+        <font>
+            <Font name="System Bold" size="14.0"/>
+        </font>
+    </Label>
+    <Label fx:id="label1" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+        <font>
+            <Font name="System Bold" size="14.0"/>
+        </font>
+    </Label>
+    <Label fx:id="label2" GridPane.columnIndex="2" GridPane.halignment="CENTER">
+        <font>
+            <Font name="System Bold" size="14.0"/>
+        </font>
+    </Label>
+    <Label fx:id="label3" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+        <font>
+            <Font name="System Bold" size="14.0"/>
+        </font>
+    </Label>
+    <Label fx:id="label4" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+        <font>
+            <Font name="System Bold" size="14.0"/>
+        </font>
+    </Label>
+    <Label fx:id="label5" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+        <font>
+            <Font name="System Bold" size="14.0"/>
+        </font>
+    </Label>
+    <Label fx:id="label6" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+        <font>
+            <Font name="System Bold" size="14.0"/>
+        </font>
+    </Label>
+    <Label fx:id="label7" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+        <font>
+            <Font name="System Bold" size="14.0"/>
+        </font>
+    </Label>
+    <Label fx:id="label8" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+        <font>
+            <Font name="System Bold" size="14.0"/>
+        </font>
+    </Label>
+    <fx:define>
+        <ArrayList fx:id="labels">
+            <fx:reference source="label0"/>
+            <fx:reference source="label1"/>
+            <fx:reference source="label2"/>
+            <fx:reference source="label3"/>
+            <fx:reference source="label4"/>
+            <fx:reference source="label5"/>
+            <fx:reference source="label6"/>
+            <fx:reference source="label7"/>
+            <fx:reference source="label8"/>
+        </ArrayList>
+    </fx:define>
+</GridPane>

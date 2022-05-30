@@ -63,7 +63,7 @@ public class AStar extends AbstractPuzzleSolver {
             PuzzleState state = open.dequeue();
             if (state.equals(target)) return true;
 
-            for(PuzzleState n : state.neighbors()) {
+            for(PuzzleState n : state.getNeighborStates()) {
                int n_score_through_current = score_map.get(state) + 1;
                Integer n_score_best = score_map.get(n);
 

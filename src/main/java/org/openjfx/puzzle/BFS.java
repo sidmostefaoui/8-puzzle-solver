@@ -21,7 +21,7 @@ public class BFS extends AbstractPuzzleSolver {
             PuzzleState state = queue.poll();
             if(state.equals(target)) return true;
 
-            for(PuzzleState n : state.neighbors())
+            for(PuzzleState n : state.getNeighborStates())
                 if(discovered.get(n) == null) {
                     discovered.put(n, true);
                     previous_map.put(n, state);

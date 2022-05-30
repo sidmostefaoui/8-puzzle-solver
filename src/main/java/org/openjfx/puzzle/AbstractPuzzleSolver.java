@@ -6,7 +6,7 @@ import java.util.HashMap;
 import org.openjfx.benchmark.Memory;
 import org.openjfx.benchmark.Timer;
 
-public abstract class AbstractPuzzleSolver {
+public abstract class AbstractPuzzleSolver implements IPuzzleSolver {
     protected final PuzzleState initial;
     protected final PuzzleState target;
     protected HashMap<PuzzleState, Boolean> discovered = new HashMap<>();
@@ -27,6 +27,7 @@ public abstract class AbstractPuzzleSolver {
         iterations = 0;
     }
 
+    @Override
     public boolean findSolution() {
         clear();
         t.start();
@@ -37,14 +38,17 @@ public abstract class AbstractPuzzleSolver {
         return search;
     }
 
+    @Override
     public int iterations() {
         return iterations;
     }
 
+    @Override
     public long duration() {
         return t.duration();
     }
 
+    @Override
     public long memory() {
         return memory;
     }
@@ -62,5 +66,6 @@ public abstract class AbstractPuzzleSolver {
     }
 
     public abstract boolean search();
+
 }
 

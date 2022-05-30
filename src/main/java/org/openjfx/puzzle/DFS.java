@@ -13,7 +13,6 @@ public class DFS extends AbstractPuzzleSolver {
         ArrayDeque<PuzzleState> stack = new ArrayDeque<>();
         stack.push(initial);
 
-
         while(!stack.isEmpty()) {
             iterations++;
             PuzzleState state = stack.pop();
@@ -23,7 +22,7 @@ public class DFS extends AbstractPuzzleSolver {
 
             if(state.equals(target)) return true;
 
-            for(PuzzleState n : state.neighbors()) {
+            for(PuzzleState n : state.getNeighborStates()) {
                 previous_map.put(n, state);
                 stack.push(n);
             }

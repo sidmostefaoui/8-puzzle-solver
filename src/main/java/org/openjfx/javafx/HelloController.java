@@ -1,21 +1,28 @@
 package org.openjfx.javafx;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.DragEvent;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import org.openjfx.benchmark.Statistics;
 import org.openjfx.puzzle.*;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.*;
 
 public class HelloController {
+
+    public HBox root;
     private PuzzleState initial;
     private PuzzleState target;
-    private AbstractPuzzleSolver solver;
+    private IPuzzleSolver solver;
 
     @FXML private List<Label> initial_grid_labels;
     @FXML private List<Label> target_grid_labels;
@@ -57,7 +64,7 @@ public class HelloController {
     }
 
     @FXML
-    protected void onSolveButtonClick() {
+    protected void onSolveButtonClick() throws IOException {
 
         String algorithm = algorithm_combo_box.getValue();
 
@@ -76,10 +83,13 @@ public class HelloController {
             case "DFS":
                 solver = new DFS(initial, target);
                 break;
+            case "Genetic":
+                solver = new Genetic(initial, target, PuzzleState::inversions);
+                break;
         }
 
         table_statistics.getItems().add(new Statistics(algorithm, solver.findSolution(),
                                 solver.iterations(), solver.duration(), solver.memory()));
-    }
 
+    }
 }

@@ -26,7 +26,6 @@ public class PuzzleState {
         List<Integer> actual = Arrays.stream(int_to_array(current.data)).boxed().collect(Collectors.toList());
         List<Integer> goal = Arrays.stream(int_to_array(target.data)).boxed().collect(Collectors.toList());
 
-
         int distances = 0;
         for(int k = 0; k < 9; k++) {
             int i1 = actual.indexOf(k);
@@ -51,8 +50,6 @@ public class PuzzleState {
 
         return misplaced;
     }
-
-
 
     public static int inversions(PuzzleState current, PuzzleState target) {
         int[] current_array = int_to_array(current.data);
@@ -97,11 +94,47 @@ public class PuzzleState {
     }
 
 
+    public enum Move {
+        NO_MOVE(-1), UP(0), DOWN(1), LEFT(2), RIGHT(3);
+        private final int val;
+
+        Move(int val) {
+            this.val = val;
+        }
+
+        private static Move build(int val) {
+            switch (val) {
+                case -1: return NO_MOVE;
+                case 0: return UP;
+                case 1: return DOWN;
+                case 2: return LEFT;
+                case 3: return RIGHT;
+                default: return null;
+            }
+        }
+
+        public static Move random() {
+            int move = ThreadLocalRandom.current().nextInt(0, 4);
+            return build(move);
+        }
+
+        public int getVal() {
+            return val;
+        }
+    }
+
     static class Pos {
-        public int index;
+        private final int index;
+        public final Move move;
+
+        public Pos(int index, Move move) {
+            this.index = index;
+            this.move = move;
+        }
 
         public Pos(int index) {
             this.index = index;
+            this.move = Move.NO_MOVE;
         }
 
         public boolean is_valid() {
@@ -109,19 +142,23 @@ public class PuzzleState {
             return j() >= 0;
         }
 
+        public Move getMove() {
+            return move;
+        }
+
         public Pos left() {
-            return new Pos(i() * 3 + (j() - 1));
+            return new Pos(i() * 3 + (j() - 1), Move.LEFT);
         }
 
         public Pos right() {
-            return new Pos(i() * 3 + (j() + 1));
+            return new Pos(i() * 3 + (j() + 1), Move.RIGHT);
         }
 
         public Pos down() {
-            return new Pos((i() + 1) * 3 + j());
+            return new Pos((i() + 1) * 3 + j(), Move.DOWN);
         }
         public Pos up() {
-            return new Pos((i() - 1) * 3 + j());
+            return new Pos((i() - 1) * 3 + j(), Move.UP);
         }
 
         private int i() {
@@ -154,28 +191,59 @@ public class PuzzleState {
         this.data = array_to_int(arr);
     }
 
-    public ArrayList<PuzzleState> neighbors() {
+    public ArrayList<PuzzleState> getNeighborStates() {
         Pos blank = new Pos(Pos.index_of(data, 0));
 
-        Pos[] neighbors = {blank.up(), blank.down(), blank.right(), blank.left()};
-        ArrayList<PuzzleState> valid = new ArrayList<>();
+        Pos[] postions = {blank.up(), blank.down(), blank.right(), blank.left()};
+        ArrayList<PuzzleState> neighbors_states = new ArrayList<>();
 
-        for (Pos pos : neighbors)
+        for (Pos pos : postions)
             if (pos.is_valid()) {
                 PuzzleState new_state = new PuzzleState(this);
                 new_state.swap(blank, pos);
-                valid.add(new_state);
+                neighbors_states.add(new_state);
             }
 
-        return valid;
+        return neighbors_states;
     }
+
+    public ArrayList<Move> validMoves() {
+        Pos blank = new Pos(Pos.index_of(data, 0));
+
+        Pos[] neighbors = {blank.up(), blank.down(), blank.right(), blank.left()};
+        ArrayList<Move> moves = new ArrayList<>();
+
+        for (Pos pos : neighbors)
+            if (pos.is_valid())
+                moves.add(pos.getMove());
+
+        return moves;
+    }
+
+    public boolean applyMoves(ArrayList<Move> moves) {
+        for(Move m : moves) {
+            Pos blank = new Pos(Pos.index_of(data, 0));
+            Pos swap = null;
+
+            switch (m){
+                case UP: swap = blank.up(); break;
+                case DOWN: swap = blank.down(); break;
+                case LEFT: swap = blank.left(); break;
+                case RIGHT: swap = blank.right(); break;
+            }
+
+            if(!swap.is_valid()) return false;
+            this.swap(blank, swap);
+        }
+        return true;
+    }
+
 
     public Integer[] as_integer_array() {
         int[] array = int_to_array(this.data);
         return Arrays.stream(array).boxed().toArray( Integer[]::new );
 
     }
-
 
     private static int array_to_int(int[] array) {
         int data = 0;
